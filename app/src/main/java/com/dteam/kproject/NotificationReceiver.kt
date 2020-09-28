@@ -13,7 +13,6 @@ class NotificationReceiver : BroadcastReceiver() {
     val id = "1"
     val name = "Notifications"
     override fun onReceive(context: Context?, intent: Intent?) {
-        println("ALARM SRABOTAL!!!")
 
         when (intent?.action) {
             Intent.ACTION_DATE_CHANGED -> showNotification(context)

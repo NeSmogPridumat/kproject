@@ -4,8 +4,6 @@ import android.graphics.Color
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
@@ -17,7 +15,7 @@ class FreeHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     private val defaultId = "000000000000000000000000"
     private val timeTextView: TextView = itemView.findViewById(R.id.time_text_view)
     private val progressImageView: ImageView = itemView.findViewById(R.id.progress_image_view)
-    private val constraint: ConstraintLayout = itemView.findViewById(R.id.constraint_layout)
+//    private val constraint: ConstraintLayout = itemView.findViewById(R.id.constraint_layout)
 
 
     fun bind(timeQueue: TimeQueue, listener: (Int) -> Unit?, time: String) {

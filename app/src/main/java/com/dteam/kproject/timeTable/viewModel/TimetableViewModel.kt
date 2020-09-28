@@ -63,7 +63,6 @@ class TimetableViewModel @ViewModelInject constructor(
     fun getTimetables(time:Long) = CoroutineScope(Dispatchers.Default).launch {
         try {
             val timetable = repository.getTimeTablesAsync(time).await()
-            println(timetable.date)
             checkIsMy = timetable.positions.any { it.user.id == getUserId() }
             timetableLiveData.postValue(timetable)
         } catch (t: Throwable){
@@ -100,19 +99,22 @@ class TimetableViewModel @ViewModelInject constructor(
         val calendar = Calendar.getInstance()
         val thisCalendar = Calendar.getInstance()
         thisCalendar.timeInMillis = date
-        calendar.set(thisCalendar.get(Calendar.YEAR), thisCalendar.get(Calendar.MONTH), thisCalendar.get(Calendar.DAY_OF_MONTH), 0, 0, 0)
+        calendar.set(
+            thisCalendar.get(Calendar.YEAR),
+            thisCalendar.get(Calendar.MONTH),
+            thisCalendar.get(Calendar.DAY_OF_MONTH),
+            0, 0, 0
+        )
         val alarmTime = ((((9 + position * 0.5) * 60) - 10)*60*1000).toLong()
         calendar.timeInMillis = calendar.timeInMillis + alarmTime
-        println("${calendar.get(Calendar.YEAR)} ${calendar.get(Calendar.MONTH) + 1} ${calendar.get(Calendar.DAY_OF_MONTH)} ${calendar.get(Calendar.HOUR_OF_DAY)} ${calendar.get(Calendar.MINUTE)}" )
-        val alarmManager = (getApplication() as Context).getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val alarmManager =
+            (getApplication() as Context).getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = createIntent()
-        val pendingIntent = PendingIntent.getBroadcast(getApplication(), date.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val pendingIntent = PendingIntent
+            .getBroadcast(getApplication(), date.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            println("Build.VERSION_CODES.M")
             alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent )
         } else alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent )
-        val format = SimpleDateFormat("yyyy-MM-dd_hh-mm")
-        println(format.format(Date(calendar.timeInMillis)))
     }
 
     private fun createIntent():Intent {
@@ -124,7 +126,8 @@ class TimetableViewModel @ViewModelInject constructor(
         try {
             val format = SimpleDateFormat("yyyy-MM-dd")
             val formatDate = format.format(date)
-            val answer = repository.deleteAsync(SetTimesData(getUserId(), formatDate, position) ).await()
+            val answer = repository
+                .deleteAsync(SetTimesData(getUserId(), formatDate, position) ).await()
             deleteLiveData.postValue(Event(answer))
         } catch (t:Throwable){
             t.printStackTrace()

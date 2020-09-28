@@ -17,7 +17,12 @@ class BusyHolder (itemView: View): RecyclerView.ViewHolder(itemView){
     fun bind(timeQueue: TimeQueue, time: String) {
         timeTextView.text = time
         nameTextView.text = timeQueue.user.name
-        if (adapterPosition % 2 != 0) constraint.setBackgroundColor(ResourcesCompat.getColor(itemView.resources, R.color.dark_blue, null))
-        else constraint.setBackgroundColor(ResourcesCompat.getColor(itemView.resources, R.color.dark_blue2, null))
+        if (adapterPosition % 2 != 0)
+            constraint.setBackgroundColor(
+                ResourcesCompat.getColor(itemView.resources, R.color.dark_blue, null)
+            )
+        else constraint.setBackgroundColor(
+            ResourcesCompat.getColor(itemView.resources, R.color.dark_blue2, null)
+        )
     }
 }

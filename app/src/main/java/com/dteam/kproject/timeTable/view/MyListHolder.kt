@@ -14,8 +14,6 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.dteam.kproject.R
 import com.dteam.kproject.data.MyTimetable
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 class MyListHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
@@ -30,25 +28,23 @@ class MyListHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val calendar = Calendar.getInstance()
 
         val timeZone = calendar.timeZone
-        println("TIMEZONE " + timeZone.displayName)
         val format = SimpleDateFormat("EEEE, dd MMMM")
         format.timeZone = timeZone
         val date = format.format(Date(myItem.positions.timeStart*1000))
-        println(date)
         dateTextView.text = date
         val timeFormat = SimpleDateFormat("HH mm")
-//        timeFormat.timeZone = timeZone
         val time = timeFormat.format(Date(myItem.positions.timeStart*1000))
-        println(time)
         timeTextView.text = time
         itemView.setOnClickListener {
-
             showDeleteDialog(myItem.positions.timeStart, myItem.positions.id, delete)
-//            delete(myItem.positions.timeStart, myItem.positions.id)
         }
 
-        if (adapterPosition % 2 != 0) constraint.setBackgroundColor(ResourcesCompat.getColor(itemView.resources, R.color.dark_blue, null))
-        else constraint.setBackgroundColor(ResourcesCompat.getColor(itemView.resources, R.color.dark_blue2, null))
+        if (adapterPosition % 2 != 0) constraint.setBackgroundColor(
+            ResourcesCompat.getColor(itemView.resources, R.color.dark_blue, null)
+        )
+        else constraint.setBackgroundColor(
+            ResourcesCompat.getColor(itemView.resources, R.color.dark_blue2, null)
+        )
     }
 
     private fun setProgressBar() {

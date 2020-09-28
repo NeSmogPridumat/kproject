@@ -138,7 +138,7 @@ class TimeTableFragment : Fragment() {
         val builder = AlertDialog.Builder(requireContext()).apply {
             setMessage(requireContext().resources.getString(R.string.unfortunately_only_one_appointment_per_day_is_possible))
             setTitle("Пичалька =(")
-            setPositiveButton(R.string.ok) { dialog, which -> dialog.cancel() }
+            setPositiveButton(R.string.ok) { dialog, _ -> dialog.cancel() }
         }
         builder.show()
     }

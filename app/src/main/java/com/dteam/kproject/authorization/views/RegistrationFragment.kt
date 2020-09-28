@@ -67,8 +67,8 @@ class RegistrationFragment : Fragment() {
             name.trim().isNotEmpty() &&
             password.trim().isNotEmpty() &&
             secretCodeEditText.text.toString() == resources.getString(R.string.code)
-        )
-            viewModel.registration(phone.trim(), name.trim(), password.trim())
+        ) viewModel.registration(phone.trim(), name.trim(), password.trim())
+
         else if (secretCodeEditText.text.toString() != resources.getString(R.string.code)){
             val errorString = resources.getString(R.string.wrong_code_entered)
             secretCodeEditText.error = errorString

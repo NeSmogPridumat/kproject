@@ -11,7 +11,6 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.dteam.kproject.R
-import com.dteam.kproject.data.TimeQueue
 
 class MyHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
@@ -28,13 +27,17 @@ class MyHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
                 null
             )
         )
-//        progressImageView.isVisible = false
         itemView.setOnClickListener {
             showDeleteDialog(adapterPosition, listener)
         }
 
-        if (adapterPosition % 2 != 0) constraint.setBackgroundColor(ResourcesCompat.getColor(itemView.resources, R.color.dark_blue, null))
-        else constraint.setBackgroundColor(ResourcesCompat.getColor(itemView.resources, R.color.dark_blue2, null))
+        if (adapterPosition % 2 != 0)
+            constraint.setBackgroundColor(
+                ResourcesCompat.getColor(itemView.resources, R.color.dark_blue, null)
+            )
+        else constraint.setBackgroundColor(
+            ResourcesCompat.getColor(itemView.resources, R.color.dark_blue2, null)
+        )
     }
 
     private fun setProgressBar() {

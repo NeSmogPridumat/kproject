@@ -38,22 +38,7 @@ class CalendarFragment : Fragment() {
         calendarView.minDate = Calendar.getInstance().timeInMillis - 1000
         calendarView.maxDate = Calendar.getInstance().timeInMillis + (604800 * 4)*1000L
         calendarView.setOnDateChangeListener { _, year, month, day ->
-            val checkCalendar = Calendar.getInstance()
-            checkCalendar.set(year, month, day)
-            if (
-                checkCalendar.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY &&
-                checkCalendar.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY
-            ) {
-                val calendar = Calendar.getInstance()
-                calendar.set(year, month, day)
-                val milliTime = calendar.timeInMillis
-                val bundle = Bundle()
-                bundle.putLong(currentDateParams, milliTime)
-                findNavController().navigate(
-                    R.id.action_calendarFragment_to_timeTableFragment,
-                    bundle
-                )
-            }
+            setAction(year, month, day)
         }
 
         myListRecyclerView = view.findViewById(R.id.my_list_recycler_view)
@@ -62,7 +47,6 @@ class CalendarFragment : Fragment() {
 
         viewModel.search()
         viewModel.getMyListLD().observe(this as LifecycleOwner, {
-            println(it.toString())
             setMyList(it)
         })
 
@@ -131,5 +115,24 @@ class CalendarFragment : Fragment() {
 
     private fun delete(date: Long, id: Int) {
         viewModel.delete(date * 1000, id)
+    }
+
+    private fun setAction(year: Int, month: Int, day: Int){
+        val checkCalendar = Calendar.getInstance()
+        checkCalendar.set(year, month, day)
+        if (
+            checkCalendar.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY &&
+            checkCalendar.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY
+        ) {
+            val calendar = Calendar.getInstance()
+            calendar.set(year, month, day)
+            val milliTime = calendar.timeInMillis
+            val bundle = Bundle()
+            bundle.putLong(currentDateParams, milliTime)
+            findNavController().navigate(
+                R.id.action_calendarFragment_to_timeTableFragment,
+                bundle
+            )
+        }
     }
 }

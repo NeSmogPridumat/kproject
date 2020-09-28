@@ -28,10 +28,22 @@ class TimetableAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType){
-            POST_TYPE -> PastHolder(LayoutInflater.from(parent.context).inflate(R.layout.past_holder_layout, parent, false) )
-            BUSY_TYPE -> BusyHolder(LayoutInflater.from(parent.context).inflate(R.layout.busy_holder_layout, parent, false) )
-            FREE_TYPE -> FreeHolder(LayoutInflater.from(parent.context).inflate(R.layout.free_holder_layout, parent, false) )
-            else -> MyHolder(LayoutInflater.from(parent.context).inflate(R.layout.my_holder_layout, parent, false) )
+            POST_TYPE -> PastHolder(
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.past_holder_layout, parent, false)
+            )
+            BUSY_TYPE -> BusyHolder(
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.busy_holder_layout, parent, false)
+            )
+            FREE_TYPE -> FreeHolder(
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.free_holder_layout, parent, false)
+            )
+            else -> MyHolder(
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.my_holder_layout, parent, false)
+            )
         }
     }
 
