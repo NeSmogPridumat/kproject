@@ -23,6 +23,7 @@ class RegistrationFragment : Fragment() {
     private lateinit var phoneEditText: TextInputEditText
     private lateinit var nameEditText: TextInputEditText
     private lateinit var passwordEditText: TextInputEditText
+    private lateinit var secretCodeEditText: TextInputEditText
     private lateinit var sendButton: Button
 
     override fun onCreateView(
@@ -31,6 +32,7 @@ class RegistrationFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_registration, container, false)
         passwordEditText = view.findViewById(R.id.password_edit_text)
+        secretCodeEditText = view.findViewById(R.id.code_edit_text)
 
         phoneEditText = view.findViewById(R.id.phone_edit_text)
         phoneEditText.addTextChangedListener(PhoneNumberFormattingTextWatcher("US"))
@@ -60,10 +62,19 @@ class RegistrationFragment : Fragment() {
         val name = nameEditText.text.toString()
         val password = passwordEditText.text.toString()
 
-        if(phone.trim().isNotEmpty() && name.trim().isNotEmpty() && password.trim().isNotEmpty())
+        if(
+            phone.trim().isNotEmpty() &&
+            name.trim().isNotEmpty() &&
+            password.trim().isNotEmpty() &&
+            secretCodeEditText.text.toString() == resources.getString(R.string.code)
+        )
             viewModel.registration(phone.trim(), name.trim(), password.trim())
+        else if (secretCodeEditText.text.toString() != resources.getString(R.string.code)){
+            val errorString = resources.getString(R.string.wrong_code_entered)
+            secretCodeEditText.error = errorString
+        }
         else {
-            val errorString = "Заполните все поля"
+            val errorString = resources.getString(R.string.fill_in_all_the_fields)
             nameEditText.error = errorString
             phoneEditText.error = errorString
         }

@@ -18,7 +18,7 @@ import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SetPhoneFragment : Fragment() {
+class AuthorizationFragment : Fragment() {
 
     lateinit var phoneEditText: TextInputEditText
     lateinit var passwordEditText: TextInputEditText
@@ -35,7 +35,7 @@ class SetPhoneFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_set_phone, container, false)
+        val view = inflater.inflate(R.layout.fragment_authorization, container, false)
         phoneEditText = view.findViewById(R.id.phone_edit_text)
         phoneEditText.addTextChangedListener(PhoneNumberFormattingTextWatcher("US"))
 

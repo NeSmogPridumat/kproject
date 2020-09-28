@@ -37,8 +37,8 @@ class NotificationReceiver : BroadcastReceiver() {
         }
         val notification = NotificationCompat.Builder(context, id)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
-            .setContentTitle("Напоминание")
-            .setContentText("Скоро Ваша очередь")
+            .setContentTitle(context.resources.getString(R.string.massage_chair))
+            .setContentText(context.resources.getString(R.string.your_turn_soon))
             .setAutoCancel(true)
             .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
             .build()

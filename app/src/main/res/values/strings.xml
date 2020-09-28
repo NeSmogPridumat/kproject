@@ -8,7 +8,7 @@
     <string name="exit">Exit</string>
     <string name="today">Today</string>
     <string name="registration">Registration</string>
-    <string name="full_name">Full Name</string>
+    <string name="name">Name</string>
     <string name="error">Error</string>
     <string name="unfortunately_only_one_appointment_per_day_is_possible">
         Unfortunately, only one appointment per day is possible</string>
@@ -17,4 +17,10 @@
     <string name="free">Free</string>
     <string name="your_time">Your time</string>
     <string name="no">No</string>
+    <string name="secret_code">Secret code</string>
+    <string name="code" translatable="false">9373102060</string>
+    <string name="fill_in_all_the_fields">Fill in all the fields</string>
+    <string name="wrong_code_entered">Wrong code entered</string>
+    <string name="massage_chair">Massage chair</string>
+    <string name="your_turn_soon">Your turn soon</string>
 </resources>

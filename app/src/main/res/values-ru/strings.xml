@@ -7,7 +7,7 @@
     <string name="exit">Выход</string>
     <string name="today">Сегодня</string>
     <string name="registration">Регистрация</string>
-    <string name="full_name">ФИО</string>
+    <string name="name">Имя</string>
     <string name="error">Ошибка</string>
     <string name="unfortunately_only_one_appointment_per_day_is_possible">К сожалению, возможна только одна запись в день</string>
     <string name="time_has_passed">Время кончилось</string>
@@ -15,4 +15,9 @@
     <string name="free">Свободно</string>
     <string name="your_time">Ваше время</string>
     <string name="no">Нет</string>
+    <string name="secret_code">Секретный код</string>
+    <string name="fill_in_all_the_fields">Заполните все поля</string>
+    <string name="wrong_code_entered">Введен неправильный код</string>
+    <string name="massage_chair">Массажное кресло</string>
+    <string name="your_turn_soon">Скоро Ваша очередь</string>
 </resources>

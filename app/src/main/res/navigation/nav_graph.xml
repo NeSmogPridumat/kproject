@@ -7,8 +7,8 @@
 
     <fragment
         android:id="@+id/setPhoneFragment"
-        android:name="com.dteam.kproject.authorization.views.SetPhoneFragment"
-        tools:layout="@layout/fragment_set_phone">
+        android:name="com.dteam.kproject.authorization.views.AuthorizationFragment"
+        tools:layout="@layout/fragment_authorization">
         <action
             android:id="@+id/action_setPhoneFragment_to_calendarFragment"
             app:destination="@id/calendarFragment"
