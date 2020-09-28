@@ -62,7 +62,6 @@ class TimeTableFragment : Fragment() {
             adapter = TimetableAdapter(
                 ArrayList(),
                 index,
-                isToday,
                 view.context.getSharedPreferences(MainActivity.preferenceKey, Context.MODE_PRIVATE)
                     .getString(MainActivity.userIdKey, "")!!,
                 ::setTimes,
@@ -122,9 +121,7 @@ class TimeTableFragment : Fragment() {
 
     private fun getIndex(): Double {
         val currentHours = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
-        val currentMinutes = Calendar.getInstance().get(Calendar.MINUTE)
-        return if (currentMinutes < 30) currentHours - 9.toDouble()
-        else currentHours - 9 + 0.5
+        return currentHours - 9.toDouble()
     }
 
     private fun itIsToday(): Boolean {
