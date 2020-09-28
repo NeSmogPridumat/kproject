@@ -128,7 +128,7 @@ class CalendarFragment : Fragment() {
         }
         builder.show()
     }
-    
+
     private fun delete(date: Long, id: Int) {
         viewModel.delete(date * 1000, id)
     }

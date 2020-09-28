@@ -21,6 +21,13 @@ class MyHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
     fun bind(listener: (Int) -> Unit?, time: String) {
         timeTextView.text = time
+        progressImageView.setImageDrawable(
+            ResourcesCompat.getDrawable(
+                itemView.resources,
+                R.drawable.ic_iconfinder_close,
+                null
+            )
+        )
 //        progressImageView.isVisible = false
         itemView.setOnClickListener {
             showDeleteDialog(adapterPosition, listener)
