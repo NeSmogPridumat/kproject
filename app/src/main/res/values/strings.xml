@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">KProject</string>
+    <string name="enter">Enter</string>
+    <string name="phone">Phone</string>
+    <string name="password">Password</string>
+    <string name="send">Send</string>
+    <string name="exit">Exit</string>
+    <string name="today">Today</string>
+    <string name="registration">Registration</string>
+    <string name="full_name">Full Name</string>
+    <string name="error">Error</string>
+    <string name="unfortunately_only_one_appointment_per_day_is_possible">
+        Unfortunately, only one appointment per day is possible</string>
+    <string name="time_has_passed">Time has passed</string>
+    <string name="busy">Busy</string>
+    <string name="free">Free</string>
+    <string name="your_time">Your time</string>
+    <string name="no">No</string>
+</resources>

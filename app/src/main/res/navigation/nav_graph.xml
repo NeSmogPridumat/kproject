@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/calendarFragment">
+
+    <fragment
+        android:id="@+id/setPhoneFragment"
+        android:name="com.dteam.kproject.authorization.views.SetPhoneFragment"
+        tools:layout="@layout/fragment_set_phone">
+        <action
+            android:id="@+id/action_setPhoneFragment_to_calendarFragment"
+            app:destination="@id/calendarFragment"
+            app:popUpTo="@id/setPhoneFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_setPhoneFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/calendarFragment"
+        android:name="com.dteam.kproject.timeTable.view.CalendarFragment"
+        tools:layout="@layout/fragment_calendar">
+        <action
+            android:id="@+id/action_calendarFragment_to_timeTableFragment"
+            app:destination="@id/timeTableFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/timeTableFragment"
+        android:name="com.dteam.kproject.timeTable.view.TimeTableFragment"
+        tools:layout="@layout/fragment_time_table">
+        <argument
+            android:name="CurrentDate"
+            android:defaultValue="0L"
+            app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="com.dteam.kproject.authorization.views.RegistrationFragment"
+        tools:layout="@layout/fragment_registration">
+        <action
+            android:id="@+id/action_registrationFragment_to_calendarFragment"
+            app:destination="@id/calendarFragment"
+            app:popUpTo="@id/setPhoneFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+</navigation>

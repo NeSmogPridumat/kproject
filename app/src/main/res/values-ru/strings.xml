@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="enter">Войти</string>
+    <string name="phone">Телефон</string>
+    <string name="password">Пароль</string>
+    <string name="send">Отправить</string>
+    <string name="exit">Выход</string>
+    <string name="today">Сегодня</string>
+    <string name="registration">Регистрация</string>
+    <string name="full_name">ФИО</string>
+    <string name="error">Ошибка</string>
+    <string name="unfortunately_only_one_appointment_per_day_is_possible">К сожалению, возможна только одна запись в день</string>
+    <string name="time_has_passed">Время кончилось</string>
+    <string name="busy">Занято</string>
+    <string name="free">Свободно</string>
+    <string name="your_time">Ваше время</string>
+    <string name="no">Нет</string>
+</resources>
