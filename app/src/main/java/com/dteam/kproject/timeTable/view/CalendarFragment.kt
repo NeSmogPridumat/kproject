@@ -36,7 +36,7 @@ class CalendarFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_calendar, container, false)
         calendarView = view.findViewById(R.id.calendar_view)
         calendarView.minDate = Calendar.getInstance().timeInMillis - 1000
-        calendarView.maxDate = Calendar.getInstance().timeInMillis + (604800 * 4)*1000L
+        calendarView.maxDate = Calendar.getInstance().timeInMillis + (3*24*60*60)*1000L
         calendarView.setOnDateChangeListener { _, year, month, day ->
             setAction(year, month, day)
         }
