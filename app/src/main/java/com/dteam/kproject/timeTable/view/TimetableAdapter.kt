@@ -55,7 +55,7 @@ class TimetableAdapter(
         calendar.add(Calendar.HOUR_OF_DAY, position)
         when (holder) {
             is FreeHolder -> holder.bind(timetable[position], setTimes, format.format(calendar.time))
-            is MyHolder -> holder.bind( delete, format.format(calendar.time))
+            is MyHolder -> holder.bind( delete, format.format(calendar.time), timetable[position].timeStart)
             is BusyHolder -> holder.bind(timetable[position], format.format(calendar.time))
             is PastHolder -> holder.bind(format.format(calendar.time))
         }
@@ -65,10 +65,12 @@ class TimetableAdapter(
 
     override fun getItemViewType(position: Int): Int {
         val timeQueue = timetable[position]
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.HOUR, 0)
         return when {
-            position <= index && isToday -> POST_TYPE
             timeQueue.user.id == userId -> YOUR_TYPE
             timeQueue.user.id != defaultId -> BUSY_TYPE
+            (position <= index + 1  && Calendar.getInstance().timeInMillis > timeQueue.timeStart * 1000)  -> POST_TYPE
             else -> FREE_TYPE
         }
     }

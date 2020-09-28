@@ -26,6 +26,7 @@ class MyListHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     @SuppressLint("SimpleDateFormat")
     fun bind(myItem: MyTimetable, delete: (Long, Int) -> Unit){
         val calendar = Calendar.getInstance()
+        println(myItem.date)
 
         val timeZone = calendar.timeZone
         val format = SimpleDateFormat("EEEE, dd MMMM")

@@ -11,6 +11,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.dteam.kproject.R
+import java.util.*
 
 class MyHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
@@ -18,7 +19,7 @@ class MyHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     private val progressImageView: ImageView = itemView.findViewById(R.id.progress_image_view)
     private val constraint: ConstraintLayout = itemView.findViewById(R.id.constraint_layout)
 
-    fun bind(listener: (Int) -> Unit?, time: String) {
+    fun bind(listener: (Int) -> Unit?, time: String, timeStart: Long) {
         timeTextView.text = time
         progressImageView.setImageDrawable(
             ResourcesCompat.getDrawable(
@@ -27,9 +28,13 @@ class MyHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
                 null
             )
         )
-        itemView.setOnClickListener {
-            showDeleteDialog(adapterPosition, listener)
-        }
+
+        if(Calendar.getInstance().timeInMillis < timeStart) {
+            progressImageView.isVisible = true
+            itemView.setOnClickListener {
+                showDeleteDialog(adapterPosition, listener)
+            }
+        } else progressImageView.isVisible = false
 
         if (adapterPosition % 2 != 0)
             constraint.setBackgroundColor(
