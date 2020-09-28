@@ -38,12 +38,22 @@ class CalendarFragment : Fragment() {
         calendarView.minDate = Calendar.getInstance().timeInMillis - 1000
         calendarView.maxDate = Calendar.getInstance().timeInMillis + (604800 * 4)*1000L
         calendarView.setOnDateChangeListener { _, year, month, day ->
-            val calendar = Calendar.getInstance()
-            calendar.set(year, month, day)
-            val milliTime = calendar.timeInMillis
-            val bundle = Bundle()
-            bundle.putLong(currentDateParams, milliTime)
-            findNavController().navigate(R.id.action_calendarFragment_to_timeTableFragment, bundle)
+            val checkCalendar = Calendar.getInstance()
+            checkCalendar.set(year, month, day)
+            if (
+                checkCalendar.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY &&
+                checkCalendar.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY
+            ) {
+                val calendar = Calendar.getInstance()
+                calendar.set(year, month, day)
+                val milliTime = calendar.timeInMillis
+                val bundle = Bundle()
+                bundle.putLong(currentDateParams, milliTime)
+                findNavController().navigate(
+                    R.id.action_calendarFragment_to_timeTableFragment,
+                    bundle
+                )
+            }
         }
 
         myListRecyclerView = view.findViewById(R.id.my_list_recycler_view)
@@ -118,18 +128,7 @@ class CalendarFragment : Fragment() {
         }
         builder.show()
     }
-
-    private fun showDeleteDialog(date: Long, id: Int){
-        val builder = AlertDialog.Builder(requireContext()).apply {
-            setMessage("Отменить?")
-            setPositiveButton(R.string.ok) { _, _ ->
-                delete(date, id)
-            }
-            setNegativeButton(R.string.no) {dialog, _ -> dialog.cancel()}
-        }
-        builder.show()
-    }
-
+    
     private fun delete(date: Long, id: Int) {
         viewModel.delete(date * 1000, id)
     }
