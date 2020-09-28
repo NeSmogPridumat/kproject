@@ -17,6 +17,7 @@ import com.dteam.kproject.R
 import com.dteam.kproject.data.MyTimetable
 import com.dteam.kproject.data.SetTimesData
 import com.dteam.kproject.data.Timetable
+import com.dteam.kproject.database.AppDataBase
 import com.dteam.kproject.timeTable.repository.TimetablesRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -149,10 +150,19 @@ class TimetableViewModel @ViewModelInject constructor(
             ).await()
 
             myListLiveData.postValue(myList)
+
+            for(myTimetable in myList){
+                repository.saveInDB(myTimetable)
+            }
         } catch (t: Throwable) {
             t.printStackTrace()
             errorLiveData.postValue(Event(t.message ?:
             (getApplication() as Context).resources.getString(R.string.error)))
         }
+    }
+
+    fun clearDB()= CoroutineScope(Dispatchers.Default).launch {
+        AppDataBase.getAppDataBase(getApplication())!!.clearAllTables()
+        AppDataBase.destroyDataBase()
     }
 }

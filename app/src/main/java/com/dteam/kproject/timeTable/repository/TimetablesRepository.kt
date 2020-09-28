@@ -3,16 +3,16 @@ package com.dteam.kproject.timeTable.repository
 import com.dteam.kproject.data.MyTimetable
 import com.dteam.kproject.data.SetTimesData
 import com.dteam.kproject.data.Timetable
+import com.dteam.kproject.database.MyTimetableDao
 import com.dteam.kproject.http.RetrofitHelper
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
+import kotlinx.coroutines.*
 import org.json.JSONObject
 import javax.inject.Inject
 
 @Suppress("BlockingMethodInNonBlockingContext")
-class TimetablesRepository @Inject constructor() {
+class TimetablesRepository @Inject constructor(
+    private val myTimetableDao: MyTimetableDao
+) {
 
     fun getTimeTablesAsync(timeSecond: Long): Deferred<Timetable> = CoroutineScope(Dispatchers.IO).async{
         val response = RetrofitHelper.makeRetrofitService().getTableTimes(timeSecond)
@@ -56,5 +56,9 @@ class TimetablesRepository @Inject constructor() {
                 throw Throwable(jo.getString("msg"))
             }
         }
+    }
+
+    fun saveInDB(myTimetable: MyTimetable) = CoroutineScope(Dispatchers.Default).launch{
+        myTimetableDao.insertMyTimetable(myTimetable)
     }
 }
