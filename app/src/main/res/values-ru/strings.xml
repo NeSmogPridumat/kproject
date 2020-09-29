@@ -20,4 +20,5 @@
     <string name="wrong_code_entered">Введен неправильный код</string>
     <string name="massage_chair">Массажное кресло</string>
     <string name="your_turn_soon">Скоро Ваша очередь</string>
+    <string name="info">Информация</string>
 </resources>

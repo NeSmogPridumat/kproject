@@ -105,21 +105,24 @@ class TimetableViewModel @ViewModelInject constructor(
     @SuppressLint("SimpleDateFormat")
     private fun setAlarm(date: Long, position: Int) {
         val calendar = Calendar.getInstance()
-        val thisCalendar = Calendar.getInstance()
-        thisCalendar.timeInMillis = date
-        calendar.set(
-            thisCalendar.get(Calendar.YEAR),
-            thisCalendar.get(Calendar.MONTH),
-            thisCalendar.get(Calendar.DAY_OF_MONTH),
-            0, 0, 0
-        )
-        val alarmTime = ((((9 + position * 0.5) * 60) - 10)*60*1000).toLong()
-        calendar.timeInMillis = calendar.timeInMillis + alarmTime
+        calendar.timeInMillis = date
+//        val thisCalendar = Calendar.getInstance()
+//        thisCalendar.timeInMillis = date
+//        calendar.set(
+//            thisCalendar.get(Calendar.YEAR),
+//            thisCalendar.get(Calendar.MONTH),
+//            thisCalendar.get(Calendar.DAY_OF_MONTH),
+//            0, 0, 0
+//        )
+        calendar.set(Calendar.HOUR_OF_DAY, 9 + position - 1)
+        calendar.set(Calendar.MINUTE, 50)
+//        val alarmTime = ((((9 + position) * 60) - 10)*60*1000).toLong()
+//        calendar.timeInMillis = calendar.timeInMillis + alarmTime
         val alarmManager =
             (getApplication() as Context).getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = createIntent()
         val pendingIntent = PendingIntent
-            .getBroadcast(getApplication(), thisCalendar.get(Calendar.DAY_OF_YEAR), intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            .getBroadcast(getApplication(), calendar.get(Calendar.DAY_OF_YEAR), intent, PendingIntent.FLAG_UPDATE_CURRENT)
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent )
         } else alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent )

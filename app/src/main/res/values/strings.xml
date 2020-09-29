@@ -23,4 +23,5 @@
     <string name="wrong_code_entered">Wrong code entered</string>
     <string name="massage_chair">Massage chair</string>
     <string name="your_turn_soon">Your turn soon</string>
+    <string name="info">Info</string>
 </resources>

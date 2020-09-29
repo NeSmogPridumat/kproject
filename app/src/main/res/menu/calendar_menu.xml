@@ -6,7 +6,7 @@
         android:id="@+id/info_menu_item"
         app:showAsAction="always"
         android:title="@string/info"
-        android:icon="in">
+        android:icon="@drawable/ic_baseline_info_24">
 
     </item>
 
