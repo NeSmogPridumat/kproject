@@ -19,9 +19,7 @@ import com.dteam.kproject.data.SetTimesData
 import com.dteam.kproject.data.Timetable
 import com.dteam.kproject.database.AppDataBase
 import com.dteam.kproject.timeTable.repository.TimetablesRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -76,18 +74,27 @@ class TimetableViewModel @ViewModelInject constructor(
     @SuppressLint("SimpleDateFormat")
     fun setTimes(date: Long, position: Int)= CoroutineScope(Dispatchers.Default).launch{
         try {
-            if (!checkIsMy) {
-                val format = SimpleDateFormat("yyyy-MM-dd")
-                val formatDate = format.format(date)
-                repository.setTimesAsync(SetTimesData(getUserId(), formatDate, position)).await()
-            } else errorLiveData
-                .postValue(Event(
-                    (getApplication() as Context).resources
-                        .getString(R.string.unfortunately_only_one_appointment_per_day_is_possible)
-                ))
+            if(!check(date)) {
+                if (!checkIsMy) {
+                    val format = SimpleDateFormat("yyyy-MM-dd")
+                    val formatDate = format.format(date)
+                    repository.setTimesAsync(SetTimesData(getUserId(), formatDate, position))
+                        .await()
+                } else {
+                    replace(date, position)
+                }
+//                errorLiveData
+//                .postValue(Event(
+//                    (getApplication() as Context).resources
+//                        .getString(R.string.unfortunately_only_one_appointment_per_day_is_possible)
+//                )
+//                )
 
-            getTimetables(date/1000)
-            setAlarm(date, position)
+                getTimetables(date / 1000)
+                setAlarm(date, position)
+            } else {
+                errorLiveData.postValue(Event("К сожалению, можно занимать один раз в 2 дня"))
+            }
         } catch (t: Throwable){
             t.printStackTrace()
             errorLiveData.postValue(Event(t.message ?:
@@ -112,7 +119,7 @@ class TimetableViewModel @ViewModelInject constructor(
             (getApplication() as Context).getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = createIntent()
         val pendingIntent = PendingIntent
-            .getBroadcast(getApplication(), date.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            .getBroadcast(getApplication(), thisCalendar.get(Calendar.DAY_OF_YEAR), intent, PendingIntent.FLAG_UPDATE_CURRENT)
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent )
         } else alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent )
@@ -164,5 +171,86 @@ class TimetableViewModel @ViewModelInject constructor(
     fun clearDB()= CoroutineScope(Dispatchers.Default).launch {
         AppDataBase.getAppDataBase(getApplication())!!.clearAllTables()
         AppDataBase.destroyDataBase()
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private suspend fun replace (date: Long, position: Int){
+        val myTime = timetableLiveData.value?.positions?.first { it.user.id == getUserId() }
+        myTime?.let {
+            if (myTime.timeStart > Calendar.getInstance().timeInMillis / 1000) {
+                val format = SimpleDateFormat("yyyy-MM-dd")
+                //delete
+                val deleteDate = format.format(myTime.timeStart * 1000)
+                repository
+                    .deleteAsync(SetTimesData(getUserId(), deleteDate, myTime.id)).await()
+
+                //set
+                val setDate = format.format(date)
+                repository.setTimesAsync(SetTimesData(getUserId(), setDate, position)).await()
+                errorLiveData.postValue(Event("Ваша очередь была перезаписана"))
+                getTimetables(date / 1000)
+                setAlarm(date, position)
+            } else {
+                errorLiveData.postValue(Event("К сожалению, ваше время вышло"))
+            }
+        }
+    }
+
+    private suspend fun check(todayTime: Long): Boolean{
+        val todayCalendar = Calendar.getInstance()
+        todayCalendar.timeInMillis = todayTime
+        val yesterdayAndTomorrowPair = getYesterdayAndTomorrow(todayCalendar)
+        val myQueues = ArrayList<Deferred<Boolean>>()
+        myQueues.add(checkMyTimetableAsync(yesterdayAndTomorrowPair.first))
+        myQueues.add(checkMyTimetableAsync(yesterdayAndTomorrowPair.second))
+        return myQueues.awaitAll().contains(true)
+    }
+
+    private fun getYesterdayAndTomorrow(todayCalendar: Calendar): Pair<Calendar, Calendar> {
+        val tomorrowCalendar = Calendar.getInstance()
+        val yesterdayCalendar = Calendar.getInstance()
+
+        yesterdayCalendar.set(Calendar.YEAR,
+            todayCalendar.get(Calendar.YEAR))
+
+        tomorrowCalendar.set(Calendar.YEAR,
+            todayCalendar.get(Calendar.YEAR))
+
+        when (todayCalendar.get(Calendar.DAY_OF_WEEK)){
+            Calendar.MONDAY -> {
+
+                yesterdayCalendar.set(Calendar.DAY_OF_YEAR,
+                    todayCalendar.get(Calendar.DAY_OF_YEAR) - 3)
+
+                tomorrowCalendar.set(Calendar.DAY_OF_YEAR,
+                    todayCalendar.get(Calendar.DAY_OF_YEAR) + 1)
+            }
+            Calendar.FRIDAY -> {
+
+                yesterdayCalendar.set(Calendar.DAY_OF_YEAR,
+                    todayCalendar.get(Calendar.DAY_OF_YEAR) - 1)
+
+                tomorrowCalendar.set(Calendar.DAY_OF_YEAR,
+                    todayCalendar.get(Calendar.DAY_OF_YEAR) + 3)
+            }
+            else -> {
+
+                yesterdayCalendar.set(Calendar.DAY_OF_YEAR,
+                    todayCalendar.get(Calendar.DAY_OF_YEAR) - 1)
+
+                tomorrowCalendar.set(Calendar.DAY_OF_YEAR,
+                    todayCalendar.get(Calendar.DAY_OF_YEAR) + 1)
+
+            }
+        }
+        return yesterdayCalendar to tomorrowCalendar
+    }
+
+    //если true = занято, false = не занято
+    private fun checkMyTimetableAsync(calendar: Calendar):Deferred<Boolean>
+            = CoroutineScope(Dispatchers.Default).async{
+        val timetable = repository.getTimeTablesAsync(calendar.timeInMillis/1000).await()
+        val my = timetable.positions.firstOrNull { it.user.id == getUserId() }
+        return@async my != null
     }
 }

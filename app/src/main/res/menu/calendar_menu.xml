@@ -3,9 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/info_menu_item"
+        app:showAsAction="always"
+        android:title="@string/info"
+        android:icon="in">
+
+    </item>
+
+    <item
         android:id="@+id/exit_menu_item"
         android:icon="@drawable/ic_baseline_exit_to_app_24"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         android:title="@string/exit">
     </item>
 </menu>

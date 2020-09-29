@@ -67,7 +67,6 @@ class TimetableAdapter(
         return when {
             timeQueue.user.id == userId -> YOUR_TYPE
             timeQueue.user.id != defaultId -> BUSY_TYPE
-//            (position <= index  &&
                     Calendar.getInstance().timeInMillis > timeQueue.timeStart * 1000 -> POST_TYPE
             else -> FREE_TYPE
         }
