@@ -90,6 +90,7 @@ class CalendarFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.exit_menu_item -> showExitDialog()
+            R.id.info_menu_item -> findNavController().navigate(R.id.action_calendarFragment_to_infoFragment)
         }
         return super.onOptionsItemSelected(item)
     }

@@ -156,7 +156,8 @@ class TimetableViewModel @ViewModelInject constructor(
         try {
             val myList = repository.searchAsync(
                 getUserId(),
-                System.currentTimeMillis() / 1000 - 7*60*60
+                (Calendar.getInstance().timeInMillis / 1000)
+                        - 10*60*60
             ).await()
 
             myListLiveData.postValue(myList)

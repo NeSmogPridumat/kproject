@@ -24,4 +24,19 @@
     <string name="massage_chair">Massage chair</string>
     <string name="your_turn_soon">Your turn soon</string>
     <string name="info">Info</string>
+    <string name="instruction_full_text">
+        1. We go into the office, take off our shoes, put on shoe covers.\n
+        2. Take off outerwear / jacket, put on a disposable cape.\n
+        3. Gently sit down on the massage chair.\n
+        When landing, you must first sit on a chair with your booty, and only then throw your legs.\n
+        4. Select the required program on the control panel\n
+        5. We are waiting for 40 seconds until the chair adjusts to your size\n
+        6. Enjoy the massage.\n
+        7. After the massage we gently fly out of the chair. Do not step on the foot platform!\n
+        8. Take off the disposable cape and shoe covers, throw them into the basket.\n
+        9. Optionally you can drink water.\n
+        10. Leaving the treatment room, turn on the quartz lamp.\n
+    </string>
+    <string name="instruction">INSTRUCTION</string>
+    <string name="how_to_use_the_massage_chair">HOW TO USE THE MASSAGE CHAIR?</string>
 </resources>
