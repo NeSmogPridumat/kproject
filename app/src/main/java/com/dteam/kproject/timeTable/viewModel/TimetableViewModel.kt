@@ -128,6 +128,23 @@ class TimetableViewModel @ViewModelInject constructor(
         } else alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent )
     }
 
+    private fun cancelAlarm(date: Long, position: Int){
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = date
+        calendar.set(Calendar.HOUR_OF_DAY, 9 + position - 1)
+        calendar.set(Calendar.MINUTE, 50)
+        val intent = createIntent()
+        val pendingIntent = PendingIntent.getBroadcast(
+            getApplication(),
+            calendar.get(Calendar.DAY_OF_YEAR),
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        val alarmManager =
+            (getApplication() as Context).getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.cancel(pendingIntent)
+    }
+
     private fun createIntent():Intent {
         return Intent(getApplication(), NotificationReceiver::class.java)
     }
@@ -140,6 +157,7 @@ class TimetableViewModel @ViewModelInject constructor(
             val answer = repository
                 .deleteAsync(SetTimesData(getUserId(), formatDate, position) ).await()
             deleteLiveData.postValue(Event(answer))
+            cancelAlarm(date, position)
         } catch (t:Throwable){
             t.printStackTrace()
             errorLiveData.postValue(Event(t.message ?:
