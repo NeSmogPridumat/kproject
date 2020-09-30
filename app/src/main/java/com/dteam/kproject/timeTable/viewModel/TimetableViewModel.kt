@@ -172,10 +172,11 @@ class TimetableViewModel @ViewModelInject constructor(
 
     fun search () = CoroutineScope(Dispatchers.Default).launch {
         try {
+            val calendar = Calendar.getInstance()
+            calendar.timeZone = TimeZone.getDefault()
             val myList = repository.searchAsync(
                 getUserId(),
                 (Calendar.getInstance().timeInMillis / 1000)
-                        - 10*60*60
             ).await()
 
             myListLiveData.postValue(myList)
