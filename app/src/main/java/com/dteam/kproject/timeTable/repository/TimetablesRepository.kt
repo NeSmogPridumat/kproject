@@ -14,7 +14,8 @@ class TimetablesRepository @Inject constructor(
     private val myTimetableDao: MyTimetableDao
 ) {
 
-    fun getTimeTablesAsync(timeSecond: Long): Deferred<Timetable> = CoroutineScope(Dispatchers.IO).async{
+    fun getTimeTablesAsync(timeSecond: Long): Deferred<Timetable>
+            = CoroutineScope(Dispatchers.IO).async{
         val response = RetrofitHelper.makeRetrofitService().getTableTimes(timeSecond)
         when {
             response.isSuccessful -> return@async response.body()!!
@@ -25,7 +26,8 @@ class TimetablesRepository @Inject constructor(
         }
     }
 
-    fun setTimesAsync(setTimesData: SetTimesData): Deferred<Any> = CoroutineScope(Dispatchers.IO).async {
+    fun setTimesAsync(setTimesData: SetTimesData): Deferred<Any>
+            = CoroutineScope(Dispatchers.IO).async {
         val response = RetrofitHelper.makeRetrofitService().setTimes(setTimesData)
         when {
             response.isSuccessful -> return@async response.body()!!
@@ -36,7 +38,8 @@ class TimetablesRepository @Inject constructor(
         }
     }
 
-    fun deleteAsync(setTimesData: SetTimesData): Deferred<Any> = CoroutineScope(Dispatchers.IO).async {
+    fun deleteAsync(setTimesData: SetTimesData): Deferred<Any>
+            = CoroutineScope(Dispatchers.IO).async {
         val response = RetrofitHelper.makeRetrofitService().delete(setTimesData)
         when {
             response.isSuccessful -> return@async response.body()!!
@@ -47,8 +50,10 @@ class TimetablesRepository @Inject constructor(
         }
     }
 
-    fun searchAsync(id: String, time: Long): Deferred<ArrayList<MyTimetable>> = CoroutineScope(Dispatchers.IO).async {
-        val response = RetrofitHelper.makeRetrofitService().search(id, time)
+    fun searchAsync(id: String, time: Long): Deferred<ArrayList<MyTimetable>>
+            = CoroutineScope(Dispatchers.IO).async {
+        val response = RetrofitHelper
+            .makeRetrofitService().search(id, time)
         when {
             response.isSuccessful -> return@async response.body()?: ArrayList()
             else -> {

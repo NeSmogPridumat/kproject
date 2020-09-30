@@ -57,7 +57,7 @@ class MyHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
     private fun showDeleteDialog(id: Int, delete: (Int) -> Unit?){
         val builder = AlertDialog.Builder(itemView.context).apply {
-            setMessage("Отменить?")
+            setMessage("${R.string.cancel}?")
             setPositiveButton(R.string.ok) { _, _ ->
                 setProgressBar()
                 delete(id)

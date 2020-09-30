@@ -54,7 +54,8 @@ class TimetableAdapter(
         calendar.add(Calendar.HOUR_OF_DAY, position)
         when (holder) {
             is FreeHolder -> holder.bind(timetable[position], setTimes, format.format(calendar.time))
-            is MyHolder -> holder.bind( delete, format.format(calendar.time), timetable[position].timeStart * 1000)
+            is MyHolder -> holder
+                .bind( delete, format.format(calendar.time), timetable[position].timeStart * 1000)
             is BusyHolder -> holder.bind(timetable[position], format.format(calendar.time))
             is PastHolder -> holder.bind(format.format(calendar.time))
         }

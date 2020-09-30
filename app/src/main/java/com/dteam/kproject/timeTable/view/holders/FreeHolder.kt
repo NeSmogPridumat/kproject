@@ -15,7 +15,6 @@ class FreeHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     private val defaultId = "000000000000000000000000"
     private val timeTextView: TextView = itemView.findViewById(R.id.time_text_view)
     private val progressImageView: ImageView = itemView.findViewById(R.id.progress_image_view)
-//    private val constraint: ConstraintLayout = itemView.findViewById(R.id.constraint_layout)
 
 
     fun bind(timeQueue: TimeQueue, listener: (Int) -> Unit?, time: String) {
@@ -29,9 +28,6 @@ class FreeHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
                 listener(adapterPosition)
             }
         }
-
-//        if (adapterPosition % 2 != 0) constraint.setBackgroundColor(ResourcesCompat.getColor(itemView.resources, R.color.dark_blue, null))
-//        else constraint.setBackgroundColor(ResourcesCompat.getColor(itemView.resources, R.color.dark_blue2, null))
     }
 
     private fun setProgressBar() {

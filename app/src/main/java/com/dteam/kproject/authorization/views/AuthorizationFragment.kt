@@ -20,10 +20,10 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class AuthorizationFragment : Fragment() {
 
-    lateinit var phoneEditText: TextInputEditText
-    lateinit var passwordEditText: TextInputEditText
-    lateinit var sendButton: Button
-    lateinit var registrationTextView: TextView
+    private lateinit var phoneEditText: TextInputEditText
+    private lateinit var passwordEditText: TextInputEditText
+    private lateinit var sendButton: Button
+    private lateinit var registrationTextView: TextView
     private val viewModel: AuthorizationViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {

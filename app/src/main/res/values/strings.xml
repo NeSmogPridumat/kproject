@@ -24,6 +24,8 @@
     <string name="massage_chair">Massage chair</string>
     <string name="your_turn_soon">Your turn soon</string>
     <string name="info">Info</string>
+    <string name="cancel">Cancel</string>
+    <string name="your_turn_has_been_overwritten">Your turn has been overwritten</string>
     <string name="instruction_full_text">
         1. We go into the office, take off our shoes, put on shoe covers.\n
         2. Take off outerwear / jacket, put on a disposable cape.\n
@@ -39,4 +41,6 @@
     </string>
     <string name="instruction">INSTRUCTION</string>
     <string name="how_to_use_the_massage_chair">HOW TO USE THE MASSAGE CHAIR?</string>
+    <string name="sorry_your_time_is_up">Sorry, your time is up</string>
+    <string name="unfortunately_you_can_borrow_once_every_two_days">Unfortunately, you can borrow once every 2 days</string>
 </resources>

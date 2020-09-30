@@ -80,20 +80,15 @@ class TimetableViewModel @ViewModelInject constructor(
                     val formatDate = format.format(date)
                     repository.setTimesAsync(SetTimesData(getUserId(), formatDate, position))
                         .await()
-                } else {
-                    replace(date, position)
-                }
-//                errorLiveData
-//                .postValue(Event(
-//                    (getApplication() as Context).resources
-//                        .getString(R.string.unfortunately_only_one_appointment_per_day_is_possible)
-//                )
-//                )
+                } else replace(date, position)
 
                 getTimetables(date / 1000)
                 setAlarm(date, position)
             } else {
-                errorLiveData.postValue(Event("К сожалению, можно занимать один раз в 2 дня"))
+                errorLiveData.postValue(
+                    Event((getApplication() as Context).resources
+                        .getString(R.string.unfortunately_you_can_borrow_once_every_two_days))
+                )
             }
         } catch (t: Throwable){
             t.printStackTrace()
@@ -106,18 +101,8 @@ class TimetableViewModel @ViewModelInject constructor(
     private fun setAlarm(date: Long, position: Int) {
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = date
-//        val thisCalendar = Calendar.getInstance()
-//        thisCalendar.timeInMillis = date
-//        calendar.set(
-//            thisCalendar.get(Calendar.YEAR),
-//            thisCalendar.get(Calendar.MONTH),
-//            thisCalendar.get(Calendar.DAY_OF_MONTH),
-//            0, 0, 0
-//        )
         calendar.set(Calendar.HOUR_OF_DAY, 9 + position - 1)
         calendar.set(Calendar.MINUTE, 50)
-//        val alarmTime = ((((9 + position) * 60) - 10)*60*1000).toLong()
-//        calendar.timeInMillis = calendar.timeInMillis + alarmTime
         val alarmManager =
             (getApplication() as Context).getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = createIntent()
@@ -167,7 +152,8 @@ class TimetableViewModel @ViewModelInject constructor(
 
     private fun getUserId(): String{
         return (getApplication() as Context).getSharedPreferences(
-            MainActivity.preferenceKey, Context.MODE_PRIVATE).getString(MainActivity.userIdKey, "")!!
+            MainActivity.preferenceKey, Context.MODE_PRIVATE)
+            .getString(MainActivity.userIdKey, "")!!
     }
 
     fun search () = CoroutineScope(Dispatchers.Default).launch {
@@ -210,11 +196,17 @@ class TimetableViewModel @ViewModelInject constructor(
                 //set
                 val setDate = format.format(date)
                 repository.setTimesAsync(SetTimesData(getUserId(), setDate, position)).await()
-                errorLiveData.postValue(Event("Ваша очередь была перезаписана"))
+                errorLiveData.postValue(
+                    Event((getApplication() as Context)
+                        .resources.getString(R.string.your_turn_has_been_overwritten))
+                )
                 getTimetables(date / 1000)
                 setAlarm(date, position)
             } else {
-                errorLiveData.postValue(Event("К сожалению, ваше время вышло"))
+                errorLiveData.postValue(
+                    Event((getApplication() as Context)
+                        .resources.getString(R.string.sorry_your_time_is_up))
+                )
             }
         }
     }
@@ -241,29 +233,27 @@ class TimetableViewModel @ViewModelInject constructor(
 
         when (todayCalendar.get(Calendar.DAY_OF_WEEK)){
             Calendar.MONDAY -> {
-
                 yesterdayCalendar.set(Calendar.DAY_OF_YEAR,
                     todayCalendar.get(Calendar.DAY_OF_YEAR) - 3)
 
                 tomorrowCalendar.set(Calendar.DAY_OF_YEAR,
                     todayCalendar.get(Calendar.DAY_OF_YEAR) + 1)
             }
-            Calendar.FRIDAY -> {
 
+            Calendar.FRIDAY -> {
                 yesterdayCalendar.set(Calendar.DAY_OF_YEAR,
                     todayCalendar.get(Calendar.DAY_OF_YEAR) - 1)
 
                 tomorrowCalendar.set(Calendar.DAY_OF_YEAR,
                     todayCalendar.get(Calendar.DAY_OF_YEAR) + 3)
             }
-            else -> {
 
+            else -> {
                 yesterdayCalendar.set(Calendar.DAY_OF_YEAR,
                     todayCalendar.get(Calendar.DAY_OF_YEAR) - 1)
 
                 tomorrowCalendar.set(Calendar.DAY_OF_YEAR,
                     todayCalendar.get(Calendar.DAY_OF_YEAR) + 1)
-
             }
         }
         return yesterdayCalendar to tomorrowCalendar
@@ -272,7 +262,8 @@ class TimetableViewModel @ViewModelInject constructor(
     //если true = занято, false = не занято
     private fun checkMyTimetableAsync(calendar: Calendar):Deferred<Boolean>
             = CoroutineScope(Dispatchers.Default).async{
-        val timetable = repository.getTimeTablesAsync(calendar.timeInMillis/1000).await()
+        val timetable = repository
+            .getTimeTablesAsync(calendar.timeInMillis/1000).await()
         val my = timetable.positions.firstOrNull { it.user.id == getUserId() }
         return@async my != null
     }

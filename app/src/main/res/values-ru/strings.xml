@@ -35,4 +35,8 @@
         10. Уходя из процедурного кабинеты включите кварц-лампу.</string>
     <string name="instruction">ИНСТРУКЦИЯ</string>
     <string name="how_to_use_the_massage_chair">КАК ПОЛЬЗОВАТЬСЯ МАССАЖНЫМ КРЕСЛОМ?</string>
+    <string name="cancel">Отменить</string>
+    <string name="your_turn_has_been_overwritten">Ваша очередь была перезаписана</string>
+    <string name="sorry_your_time_is_up">К сожалению, ваше время вышло</string>
+    <string name="unfortunately_you_can_borrow_once_every_two_days">К сожалению, можно занимать один раз в 2 дня</string>
 </resources>

@@ -79,10 +79,6 @@ class TimeTableFragment : Fragment() {
 
         viewModel.getErrorLiveData().observe(this as LifecycleOwner, {
             it.getContentIfNotHandler()?.let { errorText ->
-//                if (errorText == view.resources
-//                        .getString(R.string.unfortunately_only_one_appointment_per_day_is_possible))
-//                    showDialog()
-//                else
                 Toast.makeText(requireContext(), errorText, Toast.LENGTH_LONG).show()
                 timetableRecyclerView.adapter?.notifyDataSetChanged()
             }
@@ -131,13 +127,4 @@ class TimeTableFragment : Fragment() {
         return chosenCalendar.get(Calendar.DAY_OF_MONTH) == Calendar.getInstance()
             .get(Calendar.DAY_OF_MONTH)
     }
-//
-//    private fun showDialog() {
-//        val builder = AlertDialog.Builder(requireContext()).apply {
-//            setMessage(requireContext().resources.getString(R.string.unfortunately_only_one_appointment_per_day_is_possible))
-//            setTitle("Пичалька =(")
-//            setPositiveButton(R.string.ok) { dialog, _ -> dialog.cancel() }
-//        }
-//        builder.show()
-//    }
 }

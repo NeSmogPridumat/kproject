@@ -31,9 +31,11 @@ class AuthorizationViewModel @ViewModelInject constructor(
     }
     fun getErrorLiveData(): LiveData<Event<String>> = errorLiveData
 
-    fun authorization(phone: String, password: String) = CoroutineScope(Dispatchers.Default).launch{
+    fun authorization(phone: String, password: String)
+            = CoroutineScope(Dispatchers.Default).launch{
         try {
-            val userIdResponse = repository.authorizationAsync(AuthorizationData(phone, password)).await()
+            val userIdResponse = repository
+                .authorizationAsync(AuthorizationData(phone, password)).await()
             repository.saveUserId(userIdResponse.id, getApplication())
             checkLiveData.postValue(Event(userIdResponse.id))
         } catch (t:Throwable) {
@@ -42,9 +44,11 @@ class AuthorizationViewModel @ViewModelInject constructor(
         }
     }
 
-    fun registration(phone: String, name: String, password: String) = CoroutineScope(Dispatchers.IO).launch{
+    fun registration(phone: String, name: String, password: String)
+            = CoroutineScope(Dispatchers.IO).launch{
         try {
-            val userIdResponse = repository.registrationAsync(RegisterData(phone, name, password)).await()
+            val userIdResponse = repository
+                .registrationAsync(RegisterData(phone, name, password)).await()
             repository.saveUserId(userIdResponse.id, getApplication())
             checkLiveData.postValue(Event(userIdResponse.id))
         } catch (t: Throwable) {
