@@ -10,7 +10,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.dteam.kproject.Event
+import com.dteam.kproject.data.Event
 import com.dteam.kproject.MainActivity
 import com.dteam.kproject.NotificationReceiver
 import com.dteam.kproject.R
@@ -66,8 +66,10 @@ class TimetableViewModel @ViewModelInject constructor(
             timetableLiveData.postValue(timetable)
         } catch (t: Throwable){
             t.printStackTrace()
-            errorLiveData.postValue(Event(t.message ?:
-                (getApplication() as Context).resources.getString(R.string.error)))
+            errorLiveData.postValue(
+                Event(t.message ?:
+                (getApplication() as Context).resources.getString(R.string.error))
+            )
         }
     }
 
@@ -92,8 +94,10 @@ class TimetableViewModel @ViewModelInject constructor(
             }
         } catch (t: Throwable){
             t.printStackTrace()
-            errorLiveData.postValue(Event(t.message ?:
-                    (getApplication() as Context).resources.getString(R.string.error)))
+            errorLiveData.postValue(
+                Event(t.message ?:
+                    (getApplication() as Context).resources.getString(R.string.error))
+            )
         }
     }
 
@@ -145,8 +149,10 @@ class TimetableViewModel @ViewModelInject constructor(
             cancelAlarm(date, position)
         } catch (t:Throwable){
             t.printStackTrace()
-            errorLiveData.postValue(Event(t.message ?:
-                    (getApplication() as Context).resources.getString(R.string.error)))
+            errorLiveData.postValue(
+                Event(t.message ?:
+                    (getApplication() as Context).resources.getString(R.string.error))
+            )
         }
     }
 
@@ -172,8 +178,10 @@ class TimetableViewModel @ViewModelInject constructor(
             }
         } catch (t: Throwable) {
             t.printStackTrace()
-            errorLiveData.postValue(Event(t.message ?:
-            (getApplication() as Context).resources.getString(R.string.error)))
+            errorLiveData.postValue(
+                Event(t.message ?:
+            (getApplication() as Context).resources.getString(R.string.error))
+            )
         }
     }
 
@@ -266,5 +274,15 @@ class TimetableViewModel @ViewModelInject constructor(
             .getTimeTablesAsync(calendar.timeInMillis/1000).await()
         val my = timetable.positions.firstOrNull { it.user.id == getUserId() }
         return@async my != null
+    }
+
+    fun clearPreferences() = CoroutineScope(Dispatchers.Default).launch {
+        try {
+            (getApplication() as Context).getSharedPreferences(
+                MainActivity.preferenceKey, Context.MODE_PRIVATE
+            ).edit().clear().apply()
+        }catch (t: Throwable){
+            t.printStackTrace()
+        }
     }
 }

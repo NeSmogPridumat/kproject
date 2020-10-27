@@ -46,4 +46,16 @@ class AuthRepository @Inject constructor() {
             application.getSharedPreferences(MainActivity.preferenceKey, Context.MODE_PRIVATE)
         preference.edit().putString("userId", id).apply()
     }
+
+    fun checkAsync (userIdResponse: UserIdResponse)
+            = CoroutineScope(Dispatchers.IO).async {
+        val response = RetrofitHelper.makeRetrofitService().check(userIdResponse)
+        when {
+            response.isSuccessful -> return@async response.body()!!
+            else -> {
+                val jo = JSONObject(response.errorBody()!!.string())
+                throw Throwable(jo.getString("msg"))
+            }
+        }
+    }
 }

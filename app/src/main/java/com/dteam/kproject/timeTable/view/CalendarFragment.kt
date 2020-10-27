@@ -97,8 +97,7 @@ class CalendarFragment : Fragment() {
 
     private fun exitApp() {
         viewModel.clearDB()
-        requireContext().getSharedPreferences(
-            MainActivity.preferenceKey, Context.MODE_PRIVATE).edit().clear().apply()
+        viewModel.clearPreferences()
         val options = NavOptions.Builder()
             .setPopUpTo(R.id.calendarFragment, true).build()
         findNavController().navigate(R.id.setPhoneFragment, null, options)

@@ -1,4 +1,4 @@
-package com.dteam.kproject
+package com.dteam.kproject.data
 
 open class Event <out T> (private val content: T){
 

@@ -5,7 +5,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.dteam.kproject.Event
+import com.dteam.kproject.data.Event
 import com.dteam.kproject.authorization.repository.AuthRepository
 import com.dteam.kproject.data.AuthorizationData
 import com.dteam.kproject.data.RegisterData

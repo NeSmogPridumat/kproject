@@ -36,4 +36,9 @@ interface RetrofitService {
         @Query ("id") id: String,
         @Query ("time") time: Long
     ): Response<ArrayList<MyTimetable>>
+
+    @POST("/check")
+    suspend fun check(
+        @Body userIdResponse: UserIdResponse
+    ): Response<Any>
 }
